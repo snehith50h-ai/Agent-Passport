@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import type { AuditLogEntry } from '../types/audit';
 import { mockFixtures } from '../mock/audit-feed';
 
-// Use an environment variable, but default to true if undefined for the demo
-const USE_MOCK = import.meta.env.VITE_USE_MOCK !== 'false';
+// Force live backend by default for the real demo
+const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
 const POLL_INTERVAL = 3000;
 
 export function useAuditFeed() {

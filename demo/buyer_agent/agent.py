@@ -22,7 +22,7 @@ def demo():
         print("No items found.")
         return
     sku = items[0]["sku"]
-    print(f"Found: {items[0]['name']} (SKU: {sku}) for ₹{items[0]['price_paise']/100}")
+    print(f"Found: {items[0]['name']} (SKU: {sku}) for INR {items[0]['price_paise']/100}")
 
     print_step("Agent Action", f"Negotiating a 5% discount on {sku}...")
     res = httpx.post(f"{CATALOG_URL}/catalog/negotiate", json={
