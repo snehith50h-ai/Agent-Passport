@@ -48,10 +48,8 @@ export function SpendGauge({ currentSpendPaise, capPaise }: { currentSpendPaise:
             stroke={isNearCap ? "#EF5350" : "#3B82F6"} 
             strokeWidth="12"
             strokeLinecap="round"
-            // Circumference = 2 * PI * 80 ~= 502.65
-            strokeDasharray="502.65 502.65"
-            initial={{ strokeDashoffset: 502.65 }}
-            animate={{ strokeDashoffset: 502.65 - (percentage / 100) * 502.65 }}
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: percentage / 100 }}
             transition={{ duration: 1, ease: "easeOut" }}
           />
         </svg>

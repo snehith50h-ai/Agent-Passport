@@ -8,12 +8,7 @@ interface PanelProps {
 export function Panel({ children, className = '' }: PanelProps) {
   return (
     <div 
-      className={`relative rounded-xl border border-steel/60 shadow-2xl overflow-hidden ${className}`}
-      style={{ 
-        background: 'rgba(16, 30, 51, 0.55)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)'
-      }}
+      className={`relative rounded-xl border border-steel/30 shadow-2xl overflow-hidden bg-slate-900/40 backdrop-blur-xl ${className}`}
     >
       {children}
     </div>
