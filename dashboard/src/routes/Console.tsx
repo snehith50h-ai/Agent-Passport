@@ -13,7 +13,7 @@ export function Console({ logs, latestEvent }: { logs: AuditLogEntry[], latestEv
     .filter(log => log.action === 'payment' && log.verdict?.decision === 'approved')
     .reduce((sum, log) => sum + (log.verdict?.final_value_paise || 0), 0);
   
-  const dailyCapPaise = 200000; // 2000 INR
+  const dailyCapPaise = 50000000; // 500,000 INR (5 Lakhs)
 
   return (
     <motion.div 

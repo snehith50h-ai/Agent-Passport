@@ -17,8 +17,8 @@ export function BgFlowLayer({ latestEvent }: { latestEvent: AuditLogEntry | null
   }, [latestEvent]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 opacity-15 overflow-hidden">
-      <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+    <div className="fixed inset-0 pointer-events-none z-0 opacity-25 overflow-hidden">
+      <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
         <defs>
           <radialGradient id="nodeGrad" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.8" />
