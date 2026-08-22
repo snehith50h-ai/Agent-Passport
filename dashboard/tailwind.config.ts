@@ -24,6 +24,7 @@ const config: Config = {
         body: ['Inter', 'sans-serif'],
         display: ['Space Grotesk', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
+        voice: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
