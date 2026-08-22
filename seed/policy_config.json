@@ -1,0 +1,11 @@
+{
+  "policy_version": "v1.0.0",
+  "max_order_value_paise": 10000000, 
+  "blocked_skus": [
+    "GIFT-CARD-BULK"
+  ],
+  "discount_ceiling_pct": 10.0,
+  "discount_min_cart_paise": 200000,
+  "daily_agent_spend_cap_paise": 50000000,
+  "requires_stock_check": true
+}

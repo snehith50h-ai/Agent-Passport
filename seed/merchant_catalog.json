@@ -1,0 +1,65 @@
+[
+  {
+    "sku": "TSHIRT-01",
+    "name": "Classic Blue T-Shirt",
+    "price_paise": 150000,
+    "stock": 50,
+    "category": "apparel",
+    "refund_window_days": 14,
+    "agent_visible": true
+  },
+  {
+    "sku": "TSHIRT-02",
+    "name": "Graphic Print T-Shirt",
+    "price_paise": 180000,
+    "stock": 30,
+    "category": "apparel",
+    "refund_window_days": 14,
+    "agent_visible": true
+  },
+  {
+    "sku": "HOODIE-01",
+    "name": "Premium Black Hoodie",
+    "price_paise": 350000,
+    "stock": 10,
+    "category": "apparel",
+    "refund_window_days": 14,
+    "agent_visible": true
+  },
+  {
+    "sku": "MUG-01",
+    "name": "Ceramic Coffee Mug",
+    "price_paise": 80000,
+    "stock": 100,
+    "category": "accessories",
+    "refund_window_days": 7,
+    "agent_visible": true
+  },
+  {
+    "sku": "CAP-01",
+    "name": "Vintage Baseball Cap",
+    "price_paise": 120000,
+    "stock": 45,
+    "category": "accessories",
+    "refund_window_days": 14,
+    "agent_visible": true
+  },
+  {
+    "sku": "BAG-01",
+    "name": "Canvas Tote Bag",
+    "price_paise": 200000,
+    "stock": 0,
+    "category": "accessories",
+    "refund_window_days": 14,
+    "agent_visible": true
+  },
+  {
+    "sku": "GIFT-CARD-BULK",
+    "name": "Bulk Corporate Gift Card",
+    "price_paise": 1000000,
+    "stock": 999,
+    "category": "digital",
+    "refund_window_days": 0,
+    "agent_visible": true
+  }
+]

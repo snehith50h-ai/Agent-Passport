@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+@layer base {
+  body {
+    @apply bg-ink text-paper font-sans antialiased;
+  }
+}
+
+/* Custom scrollbar for ledger */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-steel rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-mist;
+}
