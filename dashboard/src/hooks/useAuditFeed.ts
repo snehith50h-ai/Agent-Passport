@@ -34,7 +34,8 @@ export function useAuditFeed() {
       }
 
       try {
-        const res = await fetch("http://localhost:8002/audit/log");
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8002";
+        const res = await fetch(`${API_URL}/audit/log`);
         if (res.ok) {
           const data: AuditLogEntry[] = await res.json();
           // Assuming backend returns all logs, or we'd need cursor logic.
