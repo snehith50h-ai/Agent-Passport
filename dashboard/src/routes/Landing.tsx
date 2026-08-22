@@ -64,6 +64,50 @@ export function Landing() {
         </motion.div>
       </section>
 
+      {/* The Mechanism Section */}
+      <section className="min-h-screen flex flex-col justify-center px-8 lg:px-24">
+        <div className="max-w-4xl mb-16">
+          <h2 className="font-display text-4xl font-bold mb-4">The Pipeline</h2>
+          <p className="font-body text-xl text-mist">Watch transactions flow through the deterministic gate in real-time.</p>
+        </div>
+
+        <div className="relative w-full max-w-5xl mx-auto h-[400px] border border-steel/30 bg-panel-2/30 rounded-xl flex items-center justify-between px-12">
+          {/* Base Track */}
+          <div className="absolute left-12 right-12 h-1 bg-steel/30 top-1/2 -translate-y-1/2 z-0" />
+          
+          {/* Animated pulse traveling across the track */}
+          <motion.div 
+            className="absolute left-12 h-1 bg-signal-blue top-1/2 -translate-y-1/2 z-0 shadow-[0_0_15px_#3B82F6]"
+            initial={{ width: "0%" }}
+            whileInView={{ width: "100%" }}
+            viewport={{ once: false, margin: "-100px" }}
+            transition={{ duration: 2.5, ease: "linear", repeat: Infinity, repeatDelay: 1 }}
+          />
+
+          {/* Nodes */}
+          {[
+            { label: "Agent", color: "bg-mist", active: "bg-signal-blue" },
+            { label: "Firewall", color: "bg-mist", active: "bg-signal-blue" },
+            { label: "Payment", color: "bg-mist", active: "bg-mint" },
+            { label: "Audit Log", color: "bg-mist", active: "bg-paper" }
+          ].map((node, i) => (
+            <div key={i} className="relative z-10 flex flex-col items-center gap-4 bg-panel-2/80 p-4 rounded-lg border border-steel/50 backdrop-blur-md">
+              <motion.div 
+                className={`w-6 h-6 rounded-full ${node.color}`}
+                initial={{ backgroundColor: "#8FA0BE", scale: 1 }}
+                whileInView={{ 
+                  backgroundColor: ["#8FA0BE", node.active === 'bg-signal-blue' ? '#3B82F6' : node.active === 'bg-mint' ? '#22C08A' : '#E8ECF3', "#8FA0BE"],
+                  scale: [1, 1.3, 1]
+                }}
+                viewport={{ once: false, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: (i * 0.83), repeat: Infinity, repeatDelay: 3 }}
+              />
+              <span className="font-display font-bold uppercase tracking-wider text-sm">{node.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Stats Section */}
       <section className="min-h-screen flex items-center px-8 lg:px-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-24 w-full">

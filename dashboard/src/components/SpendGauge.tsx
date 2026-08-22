@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, animate } from 'framer-motion';
 import { useSpendGauge } from '../hooks/useSpendGauge';
 import { Panel } from './Panel';
@@ -7,16 +7,17 @@ import { Data } from './Data';
 export function SpendGauge({ currentSpendPaise, capPaise }: { currentSpendPaise: number, capPaise: number }) {
   const { percentage, displaySpend, capRupees, isNearCap } = useSpendGauge(currentSpendPaise, capPaise);
   
-  // Animate the displayed number so it counts up smoothly
   const [animatedSpend, setAnimatedSpend] = useState(0);
+  const prevSpend = useRef(0);
 
   useEffect(() => {
-    const controls = animate(animatedSpend, displaySpend, {
+    const controls = animate(prevSpend.current, displaySpend, {
       duration: 1,
       onUpdate: (val) => setAnimatedSpend(val)
     });
+    prevSpend.current = displaySpend;
     return controls.stop;
-  }, [displaySpend, animatedSpend]);
+  }, [displaySpend]);
 
   return (
     <Panel className="p-6 flex flex-col items-center relative overflow-hidden h-full min-h-[300px]">
