@@ -1,52 +1,45 @@
-import { Package, ShoppingBag } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
+import { Panel } from './Panel';
+import { Data } from './Data';
 
-const CATALOG = [
-  { id: 'SKU-MBP-16', name: 'MacBook Pro 16"', price: 249900, stock: 42, blocked: false },
-  { id: 'SKU-IPH-15P', name: 'iPhone 15 Pro', price: 129900, stock: 156, blocked: false },
-  { id: 'SKU-AW-S9', name: 'Apple Watch S9', price: 41900, stock: 8, blocked: false },
-  { id: 'GIFT-CARD-BULK', name: 'Corporate Gift Cards', price: 100000, stock: 1000, blocked: true },
+const SNAPSHOT = [
+  { id: 'SKU-001', name: 'Premium Cloud Credits', price: 50000, stock: 120 },
+  { id: 'SKU-002', name: 'Enterprise API Tier', price: 150000, stock: 45 },
+  { id: 'SKU-003', name: 'Dedicated Server', price: 25000, stock: 0 }, // blocked due to stock
 ];
 
 export function CatalogSnapshot() {
   return (
-    <div className="bg-panel/60 backdrop-blur-md border border-steel/50 rounded-xl p-6 shadow-2xl flex flex-col h-[320px]">
-      <h2 className="text-mist text-xs font-semibold uppercase tracking-wider mb-4 font-mono flex items-center gap-2">
-        <Package className="w-4 h-4" />
-        Live Catalog
-      </h2>
-      
-      <div className="flex-1 overflow-y-auto space-y-2 pr-1 -mr-2">
-        {CATALOG.map(item => (
-          <div 
-            key={item.id} 
-            className={`p-3 rounded-lg border ${item.blocked ? 'border-coral/30 bg-coral/5' : 'border-steel/30 bg-panel-2/50'} flex justify-between items-start`}
-          >
+    <Panel className="p-6">
+      <div className="flex items-center gap-2 mb-6 text-mist">
+        <ShoppingBag className="w-4 h-4" />
+        <h2 className="text-xs font-semibold uppercase tracking-wider font-display">Catalog Overview</h2>
+      </div>
+
+      <div className="space-y-3">
+        {SNAPSHOT.map(item => (
+          <div key={item.id} className="p-3 bg-panel-2 rounded border border-steel/30 flex justify-between items-center">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <p className={`text-sm font-medium ${item.blocked ? 'text-coral' : 'text-paper'}`}>
-                  {item.name}
-                </p>
-                {item.blocked && (
-                  <span className="text-[9px] font-mono uppercase bg-coral/20 text-coral px-1.5 py-0.5 rounded">Blocked</span>
-                )}
-              </div>
-              <p className="text-[10px] font-mono text-mist">{item.id}</p>
+              <p className="text-sm text-paper font-body">{item.name}</p>
+              <Data className="text-[10px] text-mist">{item.id}</Data>
             </div>
-            
             <div className="text-right">
-              <p className="text-sm font-mono text-paper">₹{item.price.toLocaleString('en-IN')}</p>
-              <p className={`text-xs font-mono mt-1 ${item.stock < 10 ? 'text-amber' : 'text-mist'}`}>
-                {item.stock} in stock
-              </p>
+              <Data className="text-sm font-bold text-paper block">
+                ₹{(item.price / 100).toLocaleString('en-IN')}
+              </Data>
+              {item.stock > 0 ? (
+                <Data className="text-[10px] text-mint">{item.stock} in stock</Data>
+              ) : (
+                <span className="text-[10px] text-coral font-mono uppercase">Out of stock</span>
+              )}
             </div>
           </div>
         ))}
       </div>
       
-      <div className="mt-4 pt-3 border-t border-steel/30 flex justify-between items-center text-xs font-mono text-mist">
-        <span className="flex items-center gap-1"><ShoppingBag className="w-3 h-3" /> Storefront API Active</span>
-        <span className="text-mint">Sync: OK</span>
-      </div>
-    </div>
+      <button className="w-full mt-4 py-2 border border-steel/50 rounded text-xs text-mist hover:text-paper hover:bg-steel/20 transition-colors font-display uppercase tracking-wider">
+        View Full Catalog
+      </button>
+    </Panel>
   );
 }

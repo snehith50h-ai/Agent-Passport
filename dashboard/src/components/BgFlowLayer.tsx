@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { AuditLogEntry } from '../types/audit';
 
-export function FlowBackground({ latestEvent }: { latestEvent: AuditLogEntry | null }) {
+export function BgFlowLayer({ latestEvent }: { latestEvent: AuditLogEntry | null }) {
   const [pulsePath, setPulsePath] = useState<string | null>(null);
 
   useEffect(() => {
     if (latestEvent) {
-      // Trigger a pulse
       setPulsePath(latestEvent.action);
       
       const timer = setTimeout(() => {
@@ -17,10 +16,8 @@ export function FlowBackground({ latestEvent }: { latestEvent: AuditLogEntry | n
     }
   }, [latestEvent]);
 
-  // We use simple SVG lines connecting nodes to simulate a network graph
-  // Background fixed and low opacity
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 opacity-30 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-0 opacity-15 overflow-hidden">
       <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="nodeGrad" cx="50%" cy="50%" r="50%">
@@ -68,16 +65,11 @@ export function FlowBackground({ latestEvent }: { latestEvent: AuditLogEntry | n
           />
         )}
 
-        {/* Nodes */}
+        {/* Nodes - Note: Removed text tags to prevent z-index bleeding through panels */}
         <circle cx="100" cy="200" r="40" fill="url(#nodeGrad)" />
         <circle cx="500" cy="400" r="60" fill="url(#nodeGrad)" />
         <circle cx="900" cy="200" r="40" fill="url(#nodeGrad)" />
         <circle cx="900" cy="600" r="40" fill="url(#nodeGrad)" />
-
-        <text x="100" y="250" fill="#8FA0BE" fontSize="12" textAnchor="middle" className="font-mono">Agent</text>
-        <text x="500" y="480" fill="#8FA0BE" fontSize="12" textAnchor="middle" className="font-mono">Firewall</text>
-        <text x="900" y="250" fill="#8FA0BE" fontSize="12" textAnchor="middle" className="font-mono">Payment</text>
-        <text x="900" y="650" fill="#8FA0BE" fontSize="12" textAnchor="middle" className="font-mono">Audit</text>
       </svg>
     </div>
   );

@@ -1,6 +1,8 @@
 import type { AuditLogEntry } from '../types/audit';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, AlertCircle, AlertTriangle, ArrowRightLeft, CreditCard, Search } from 'lucide-react';
+import { Panel } from './Panel';
+import { Data } from './Data';
 
 export function Ledger({ logs }: { logs: AuditLogEntry[] }) {
   
@@ -23,11 +25,11 @@ export function Ledger({ logs }: { logs: AuditLogEntry[] }) {
   }, { approved: 0, countered: 0, declined: 0 });
 
   return (
-    <div className="bg-panel/80 backdrop-blur-md border border-steel/50 rounded-xl shadow-2xl flex flex-col h-[700px] overflow-hidden">
+    <Panel className="flex flex-col h-[700px]">
       
       {/* Header */}
       <div className="p-4 border-b border-steel/50 flex justify-between items-center bg-panel-2/50">
-        <h2 className="text-paper text-sm font-semibold uppercase tracking-wider font-mono">Live Decision Ledger</h2>
+        <h2 className="text-paper text-sm font-semibold uppercase tracking-wider font-display">Live Decision Ledger</h2>
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal-blue opacity-75"></span>
@@ -65,16 +67,16 @@ export function Ledger({ logs }: { logs: AuditLogEntry[] }) {
                 initial={{ opacity: 0, y: -20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 layout
-                className="p-4 rounded-lg bg-panel-2/50 border border-steel/30 hover:border-steel/60 transition-colors"
+                className="p-4 rounded-lg bg-[rgba(21,38,64,0.6)] border border-steel/30 hover:border-steel/60 transition-colors"
               >
                 <div className="flex justify-between items-start mb-2">
-                  <div className="flex items-center gap-2 text-xs font-mono text-mist">
+                  <div className="flex items-center gap-2 text-xs text-mist font-mono">
                     <span className="flex items-center gap-1">
                       {getActionIcon(log.action)}
-                      {log.action.toUpperCase()}
+                      <Data>{log.action.toUpperCase()}</Data>
                     </span>
                     <span>•</span>
-                    <span>{new Date(log.timestamp).toLocaleTimeString()}</span>
+                    <Data>{new Date(log.timestamp).toLocaleTimeString()}</Data>
                   </div>
                   
                   {log.verdict && (
@@ -85,28 +87,28 @@ export function Ledger({ logs }: { logs: AuditLogEntry[] }) {
                   )}
                 </div>
 
-                <p className="text-sm text-paper font-medium leading-relaxed mb-3">
+                <p className="text-sm text-paper font-medium leading-relaxed mb-3 font-body">
                   {log.input_summary}
                 </p>
 
                 {log.verdict && (
                   <div className="bg-ink/50 rounded p-3 border border-steel/20">
-                    <p className="text-xs text-mist leading-relaxed">
+                    <p className="text-xs text-mist leading-relaxed font-body">
                       {log.verdict.reason}
                     </p>
                     {log.verdict.final_value_paise !== null && (
-                      <p className="text-xs font-mono text-paper mt-2 flex justify-between border-t border-steel/20 pt-2">
+                      <p className="text-xs text-paper mt-2 flex justify-between border-t border-steel/20 pt-2 font-body">
                         <span>Final Value</span>
-                        <span>₹{(log.verdict.final_value_paise / 100).toLocaleString('en-IN')}</span>
+                        <Data>₹{(log.verdict.final_value_paise / 100).toLocaleString('en-IN')}</Data>
                       </p>
                     )}
                   </div>
                 )}
                 
-                <div className="mt-3 flex justify-between items-center text-[10px] font-mono text-mist/60">
-                  <span>Agent ID: {log.agent_id}</span>
+                <div className="mt-3 flex justify-between items-center text-[10px] text-mist/60 font-mono">
+                  <span>Agent ID: <Data>{log.agent_id}</Data></span>
                   {log.razorpay_order_id && (
-                    <span className="text-signal-blue/80">Order: {log.razorpay_order_id}</span>
+                    <span className="text-signal-blue/80">Order: <Data>{log.razorpay_order_id}</Data></span>
                   )}
                 </div>
               </motion.div>
@@ -124,18 +126,18 @@ export function Ledger({ logs }: { logs: AuditLogEntry[] }) {
       {/* Footer Stats */}
       <div className="p-4 bg-ink/80 border-t border-steel/50 grid grid-cols-3 gap-4">
         <div className="text-center">
-          <div className="text-2xl font-mono text-mint font-bold">{stats.approved}</div>
+          <Data className="text-2xl text-mint font-bold block">{stats.approved}</Data>
           <div className="text-[10px] uppercase font-mono text-mist tracking-wider mt-1">Approved</div>
         </div>
         <div className="text-center border-l border-steel/30">
-          <div className="text-2xl font-mono text-amber font-bold">{stats.countered}</div>
+          <Data className="text-2xl text-amber font-bold block">{stats.countered}</Data>
           <div className="text-[10px] uppercase font-mono text-mist tracking-wider mt-1">Countered</div>
         </div>
         <div className="text-center border-l border-steel/30">
-          <div className="text-2xl font-mono text-coral font-bold">{stats.declined}</div>
+          <Data className="text-2xl text-coral font-bold block">{stats.declined}</Data>
           <div className="text-[10px] uppercase font-mono text-mist tracking-wider mt-1">Declined</div>
         </div>
       </div>
-    </div>
+    </Panel>
   );
 }

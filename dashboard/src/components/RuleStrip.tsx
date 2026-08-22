@@ -1,6 +1,7 @@
 import type { AuditLogEntry } from '../types/audit';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { Panel } from './Panel';
 
 const RULES = [
   { id: 'blocked_skus', label: 'Blocked SKUs' },
@@ -28,8 +29,8 @@ export function RuleStrip({ latestEvent }: { latestEvent: AuditLogEntry | null }
   }, [latestEvent]);
 
   return (
-    <div className="bg-panel/60 backdrop-blur-md border border-steel/50 rounded-xl p-6 shadow-2xl">
-      <h2 className="text-mist text-xs font-semibold uppercase tracking-wider mb-4 font-mono">Policy Firewall Rules</h2>
+    <Panel className="p-6">
+      <h2 className="text-mist text-xs font-semibold uppercase tracking-wider mb-4 font-display">Policy Firewall Rules</h2>
       <div className="flex flex-col gap-3">
         {RULES.map(rule => {
           const isActive = activeRule?.id === rule.id;
@@ -64,7 +65,7 @@ export function RuleStrip({ latestEvent }: { latestEvent: AuditLogEntry | null }
               }}
               className={`px-4 py-3 rounded-lg border ${bgColor} ${borderColor} transition-colors duration-300 flex items-center justify-between`}
             >
-              <span className={`text-sm font-medium ${textColor} transition-colors duration-300`}>
+              <span className={`text-sm font-medium ${textColor} transition-colors duration-300 font-body`}>
                 {rule.label}
               </span>
               
@@ -81,6 +82,6 @@ export function RuleStrip({ latestEvent }: { latestEvent: AuditLogEntry | null }
           );
         })}
       </div>
-    </div>
+    </Panel>
   );
 }
