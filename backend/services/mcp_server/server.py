@@ -41,9 +41,11 @@ def negotiate(sku: str, requested_discount_pct: float, agent_id: str) -> str:
         return f"Negotiation Verdict: {verdict['decision'].upper()}\nReason: {verdict['reason']}\nCounter Offer: {verdict.get('counter_offer')}"
     return f"Error negotiating: {response.text}"
 
+from typing import Any
+
 @mcp.tool()
-def propose_order(items: list[dict], requested_discount_pct: float, agent_id: str) -> str:
-    """Propose a complete order. items should be a list of dictionaries with 'sku' and 'qty'."""
+def propose_order(items: list[dict[str, Any]], requested_discount_pct: float, agent_id: str) -> str:
+    """Propose a complete order. items should be a list of dictionaries with 'sku' (str) and 'qty' (int)."""
     intent = {
         "intent_id": "test-intent-" + agent_id,
         "agent_id": agent_id,

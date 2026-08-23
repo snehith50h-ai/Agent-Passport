@@ -58,9 +58,10 @@ def demo():
     if res.status_code == 200:
         payment_data = res.json()
         print(f"Success! Razorpay Order ID: {payment_data['razorpay_order_id']}")
-        print(f"Payment Link: {payment_data['payment_link']}")
+        print(f"Payment Dashboard Link: {payment_data['payment_link']}")
+        print("\n--> PROOF OF LIVENESS: Check the Razorpay Dashboard (Test Mode) for the above Order ID.")
     else:
-        print(f"Failed to create order: {res.text}")
+        print(f"Failed to create order (Make sure Razorpay keys are set!): {res.text}")
 
     print("\n--- Starting Failure Path ---")
     

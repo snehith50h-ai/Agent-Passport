@@ -5,6 +5,8 @@ import os
 import sqlite3
 import datetime
 import sys
+import hmac
+import hashlib
 
 from .evaluator import evaluate_rules
 
@@ -14,6 +16,7 @@ from contracts.schema import OrderIntent, PolicyConfig, FirewallVerdict
 app = FastAPI(title="Policy Firewall")
 
 DB_PATH = os.getenv("FIREWALL_DB_PATH", os.path.join(os.path.dirname(__file__), "spend.db"))
+FIREWALL_SECRET = os.getenv("FIREWALL_SECRET", "supersecret_firewall_key").encode()
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
@@ -75,5 +78,11 @@ def evaluate(req: EvaluateRequest):
     
     if req.commit_spend and verdict["decision"] == "approved":
         add_daily_spend(agent_id, today, verdict["final_value_paise"])
+
+    intent_id = req.intent.get("intent_id", "")
+    decision = verdict["decision"]
+    # Cryptographically sign the verdict to prevent direct hits to the payment gateway
+    signature = hmac.new(FIREWALL_SECRET, f"{intent_id}:{decision}".encode(), hashlib.sha256).hexdigest()
+    verdict["signature"] = signature
 
     return verdict

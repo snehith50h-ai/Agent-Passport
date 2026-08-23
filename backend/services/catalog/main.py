@@ -3,6 +3,7 @@ import uuid
 import os
 import httpx
 from datetime import datetime, timezone
+import threading
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
@@ -24,6 +25,7 @@ def load_catalog() -> List[CatalogItem]:
         return [CatalogItem(**item) for item in data]
 
 catalog_items = load_catalog()
+inventory_lock = threading.Lock()
 
 def evaluate_firewall(intent_data: dict) -> dict:
     policy_path = os.path.join(os.path.dirname(__file__), '../../seed/policy_config.json')
@@ -102,6 +104,21 @@ def negotiate(req: NegotiateRequest):
 
 @app.post("/catalog/propose_order", response_model=FirewallVerdict)
 def propose_order(intent: OrderIntent):
+    # 5. Atomic Concurrency & Stock Contention
+    with inventory_lock:
+        for order_item in intent.items:
+            catalog_item = next((c for c in catalog_items if c.sku == order_item.sku), None)
+            if catalog_item and catalog_item.stock is not None:
+                if order_item.qty > catalog_item.stock:
+                    verdict = {
+                        "decision": "declined",
+                        "rule_fired": "inventory_check",
+                        "reason": f"OUT_OF_STOCK: Only {catalog_item.stock} left for {catalog_item.sku}",
+                        "policy_version": "v1.0.0"
+                    }
+                    write_audit("order_intent", intent.agent_id, f"Stock check failed for {order_item.sku}", intent.intent_id, verdict)
+                    return verdict
+
     verdict = evaluate_firewall(intent.model_dump())
     write_audit("order_intent", intent.agent_id, f"Proposing order for {len(intent.items)} items", intent.intent_id, verdict)
     return verdict

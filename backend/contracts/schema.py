@@ -40,6 +40,7 @@ class FirewallVerdict(BaseModel):
     suggested_fix: Optional[str] = None
     final_value_paise: Optional[int] = None
     policy_version: str
+    signature: Optional[str] = None
 
 class AuditLogEntry(BaseModel):
     timestamp: str
@@ -50,3 +51,4 @@ class AuditLogEntry(BaseModel):
     verdict: Optional[FirewallVerdict] = None
     razorpay_order_id: Optional[str] = None
     razorpay_status: Optional[str] = None
+    hash: Optional[str] = None
