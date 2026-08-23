@@ -28,6 +28,9 @@ const config: Config = {
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      boxShadow: {
+        'premium': '0 4px 24px -4px rgba(59, 130, 246, 0.08), 0 2px 8px -2px rgba(10, 21, 38, 0.4)',
       }
     },
   },

@@ -29,15 +29,15 @@ export function RuleStrip({ latestEvent }: { latestEvent: AuditLogEntry | null }
   }, [latestEvent]);
 
   return (
-    <Panel className="p-6">
-      <h2 className="text-mist text-xs font-semibold uppercase tracking-wider mb-4 font-display">Policy Firewall Rules</h2>
+    <Panel className="p-8">
+      <h2 className="text-mist text-[12px] uppercase tracking-[0.05em] mb-6 font-display">Policy Firewall Rules</h2>
       <div className="flex flex-col gap-3">
         {RULES.map(rule => {
           const isActive = activeRule?.id === rule.id;
           
           let bgColor = 'bg-panel-2';
           let textColor = 'text-paper';
-          let borderColor = 'border-steel/30';
+          let borderColor = 'border-transparent';
           
           if (isActive) {
             if (activeRule.decision === 'declined') {
@@ -65,7 +65,7 @@ export function RuleStrip({ latestEvent }: { latestEvent: AuditLogEntry | null }
               }}
               className={`px-4 py-3 rounded-lg border ${bgColor} ${borderColor} transition-colors duration-300 flex items-center justify-between`}
             >
-              <span className={`text-sm font-medium ${textColor} transition-colors duration-300 font-body`}>
+              <span className={`text-[14px] font-medium ${textColor} transition-colors duration-300 font-body`}>
                 {rule.label}
               </span>
               

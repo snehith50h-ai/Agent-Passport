@@ -18,16 +18,16 @@ export function Policies() {
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto p-6 pt-24 min-h-screen relative z-10">
+    <div className="max-w-[1200px] mx-auto p-8 pt-32 min-h-screen relative z-10">
       
-      <div className="mb-8 flex justify-between items-end">
+      <div className="mb-12 flex justify-between items-end">
         <div>
-          <h1 className="font-display text-3xl font-bold text-paper mb-2">Policy Configuration</h1>
-          <p className="font-body text-mist">Set deterministic bounds for autonomous agents.</p>
+          <h1 className="font-display text-[32px] font-bold text-paper mb-3">Policy Configuration</h1>
+          <p className="font-body text-[14px] text-mist">Set deterministic bounds for autonomous agents.</p>
         </div>
         <button 
           onClick={handleSave}
-          className="px-6 py-2 bg-signal-blue text-ink rounded font-display font-bold uppercase tracking-wider hover:bg-signal-blue/90 transition-colors"
+          className="px-6 py-3 bg-signal-blue text-ink rounded text-[12px] font-display font-bold uppercase tracking-[0.05em] hover:bg-signal-blue/90 hover:-translate-y-[1px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-blue focus-visible:outline-offset-2 transition-all duration-150"
         >
           Deploy Policies
         </button>
@@ -39,9 +39,9 @@ export function Policies() {
         <Panel className="lg:col-span-2 p-8">
           <div className="space-y-8">
             
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-12">
               <div>
-                <label className="block font-display text-sm uppercase tracking-wider text-mist mb-2">Max Order Value (INR)</label>
+                <label className="block font-display text-[12px] uppercase tracking-[0.05em] text-mist mb-3">Max Order Value (INR)</label>
                 <input 
                   type="number" 
                   value={rules.max_order_value}
@@ -51,7 +51,7 @@ export function Policies() {
               </div>
               
               <div>
-                <label className="block font-display text-sm uppercase tracking-wider text-mist mb-2">Daily Agent Spend Cap (INR)</label>
+                <label className="block font-display text-[12px] uppercase tracking-[0.05em] text-mist mb-3">Daily Agent Spend Cap (INR)</label>
                 <input 
                   type="number" 
                   value={rules.daily_spend_cap}
@@ -62,9 +62,9 @@ export function Policies() {
             </div>
 
             <div>
-              <div className="flex justify-between mb-2">
-                <label className="font-display text-sm uppercase tracking-wider text-mist">Discount Ceiling</label>
-                <Data className="text-signal-blue">{rules.discount_ceiling}%</Data>
+              <div className="flex justify-between mb-4">
+                <label className="font-display text-[12px] uppercase tracking-[0.05em] text-mist">Discount Ceiling</label>
+                <Data className="text-signal-blue font-bold">{rules.discount_ceiling}%</Data>
               </div>
               <input 
                 type="range" 
@@ -76,10 +76,10 @@ export function Policies() {
               />
             </div>
 
-            <div className="flex items-center justify-between border-t border-steel/30 pt-8">
+            <div className="flex items-center justify-between border-t border-steel/20 pt-10">
               <div>
-                <label className="font-display text-sm uppercase tracking-wider text-paper block">Enforce Stock Check</label>
-                <p className="text-xs text-mist font-body mt-1">Block orders for SKUs with 0 inventory.</p>
+                <label className="font-display text-[14px] uppercase tracking-[0.05em] text-paper block">Enforce Stock Check</label>
+                <p className="text-[12px] text-mist font-body mt-2">Block orders for SKUs with 0 inventory.</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input 
@@ -96,12 +96,12 @@ export function Policies() {
         </Panel>
 
         {/* Simulator */}
-        <Panel className="p-6 flex flex-col">
-          <h2 className="font-display text-sm uppercase tracking-wider text-mist mb-6 border-b border-steel/30 pb-4">
+        <Panel className="p-8 flex flex-col">
+          <h2 className="font-display text-[12px] uppercase tracking-[0.05em] text-mist mb-8 border-b border-steel/20 pb-4">
             Simulator
           </h2>
           <div className="flex-1">
-            <p className="font-body text-sm text-paper mb-4">Test current policies against a mock request.</p>
+            <p className="font-body text-[14px] text-paper mb-6">Test current policies against a mock request.</p>
             
             <div className="p-4 bg-ink/50 border border-steel/30 rounded mb-4 font-mono text-xs text-mist space-y-2">
               <div>Intent: <span className="text-paper">ORDER</span></div>

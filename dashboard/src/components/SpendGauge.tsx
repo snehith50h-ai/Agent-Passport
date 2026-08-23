@@ -20,13 +20,13 @@ export function SpendGauge({ currentSpendPaise, capPaise }: { currentSpendPaise:
   }, [displaySpend]);
 
   return (
-    <Panel className="p-6 flex flex-col items-center relative overflow-hidden h-full min-h-[300px]">
+    <Panel className="p-8 flex flex-col items-center relative overflow-hidden h-full min-h-[300px]">
       {/* Decorative background glow if near cap */}
       {isNearCap && (
         <div className="absolute inset-0 bg-coral/10 animate-pulse pointer-events-none" />
       )}
 
-      <h2 className="text-mist text-xs font-semibold uppercase tracking-wider mb-6 font-display self-start">Today's Spend</h2>
+      <h2 className="text-mist text-[12px] uppercase tracking-[0.05em] mb-8 font-display self-start">Today's Spend</h2>
       
       <div className="relative w-48 h-48 flex items-center justify-center flex-1">
         {/* Background track */}
@@ -55,8 +55,8 @@ export function SpendGauge({ currentSpendPaise, capPaise }: { currentSpendPaise:
         </svg>
 
         <div className="flex flex-col items-center z-10">
-          <span className="text-mist text-xs font-mono mb-1">INR</span>
-          <Data className={`text-2xl font-bold ${isNearCap ? 'text-coral' : 'text-paper'}`}>
+          <span className="text-mist text-[12px] font-mono mb-1">INR</span>
+          <Data className={`text-[32px] font-bold tracking-tight ${isNearCap ? 'text-coral' : 'text-paper'}`}>
             {animatedSpend.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
           </Data>
         </div>

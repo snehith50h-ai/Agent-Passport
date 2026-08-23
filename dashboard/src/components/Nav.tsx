@@ -27,7 +27,7 @@ export function Nav({ isLive }: { isLive: boolean }) {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`relative text-sm font-display uppercase tracking-wider transition-colors ${
+                className={`relative text-[12px] font-display uppercase tracking-[0.05em] transition-all duration-150 rounded-sm hover:-translate-y-[1px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-blue focus-visible:outline-offset-2 ${
                   isActive ? 'text-paper' : 'text-mist hover:text-paper'
                 }`}
               >
@@ -35,7 +35,7 @@ export function Nav({ isLive }: { isLive: boolean }) {
                 {isActive && (
                   <motion.div
                     layoutId="nav-indicator"
-                    className="absolute -bottom-5 left-0 right-0 h-0.5 bg-signal-blue"
+                    className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-signal-blue"
                     initial={false}
                   />
                 )}
