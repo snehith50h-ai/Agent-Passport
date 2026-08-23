@@ -114,7 +114,6 @@ export function generateGridPositions(count: number): Float32Array {
   for (let i = 0; i < count; i++) {
     const x = (i % gridSize) * spacing - offset;
     const y = Math.floor(i / gridSize) * spacing - offset;
-    const z = 0; 
     
     // Lay it down on the XZ plane and shift it down to act as a floor
     points[i * 3] = x;
