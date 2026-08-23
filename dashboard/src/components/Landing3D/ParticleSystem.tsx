@@ -2,10 +2,11 @@ import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import {
-  generateShieldPositions,
-  generateMechanismPositions,
-  generateFragmentedPositions,
-  generateReconvergedPositions
+  generateLogoPositions,
+  generateSpherePositions,
+  generateClusterPositions,
+  generateLinePositions,
+  generateGridPositions
 } from './utils/geometrySamplers';
 
 // Custom shader material for morphing particles
@@ -16,18 +17,21 @@ const vertexShader = `
   attribute vec3 target1;
   attribute vec3 target2;
   attribute vec3 target3;
+  attribute vec3 target4;
   
   varying vec3 vColor;
   
   void main() {
-    vec3 currentPos = position; // Scene 1 (Shield)
+    vec3 currentPos = position; // Scene 1 (Logo)
     
     if (uProgress < 1.0) {
       currentPos = mix(position, target1, uProgress);
     } else if (uProgress < 2.0) {
       currentPos = mix(target1, target2, uProgress - 1.0);
+    } else if (uProgress < 3.0) {
+      currentPos = mix(target2, target3, uProgress - 2.0);
     } else {
-      currentPos = mix(target2, target3, clamp(uProgress - 2.0, 0.0, 1.0));
+      currentPos = mix(target3, target4, clamp(uProgress - 3.0, 0.0, 1.0));
     }
     
     // Add some subtle noise/breathing based on progress/position
@@ -39,14 +43,13 @@ const vertexShader = `
     gl_PointSize = uPointSize * (20.0 / -mvPosition.z);
     gl_Position = projectionMatrix * mvPosition;
     
-    // Simple color mix based on depth (Z) to give it a 3D feel
-    // Mix between signal-blue #3B82F6 (0.23, 0.51, 0.96) and paper #E8ECF3 (0.91, 0.92, 0.95)
-    vec3 colorBlue = vec3(0.23, 0.51, 0.96);
-    vec3 colorPaper = vec3(0.91, 0.92, 0.95);
+    // Electric blue (#2962FF) to neon cyan (#00E5FF)
+    vec3 colorBlue = vec3(0.16, 0.38, 1.0); // #2962FF
+    vec3 colorCyan = vec3(0.0, 0.9, 1.0);   // #00E5FF
     
-    // Use Z position for some color variation
-    float depthMix = smoothstep(-2.0, 2.0, currentPos.z);
-    vColor = mix(colorBlue, colorPaper, depthMix * 0.5);
+    // Use Z position and index/X for color variation
+    float depthMix = smoothstep(-4.0, 4.0, currentPos.z + currentPos.x * 0.5);
+    vColor = mix(colorBlue, colorCyan, depthMix);
   }
 `;
 
@@ -59,7 +62,10 @@ const fragmentShader = `
     if (dist > 0.5) discard;
     
     float alpha = smoothstep(0.5, 0.1, dist);
-    gl_FragColor = vec4(vColor, alpha * 0.8);
+    // Extra glow near center
+    float glow = smoothstep(0.3, 0.0, dist);
+    
+    gl_FragColor = vec4(vColor + vec3(glow * 0.5), alpha * 0.9);
   }
 `;
 
@@ -68,17 +74,18 @@ interface ParticleSystemProps {
   progressRef: React.MutableRefObject<number>;
 }
 
-export function ParticleSystem({ count = 10000, progressRef }: ParticleSystemProps) {
+export function ParticleSystem({ count = 50000, progressRef }: ParticleSystemProps) {
   const pointsRef = useRef<THREE.Points>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
 
   // Generate target arrays exactly once
-  const { pos0, pos1, pos2, pos3 } = useMemo(() => {
+  const { pos0, pos1, pos2, pos3, pos4 } = useMemo(() => {
     return {
-      pos0: generateShieldPositions(count),        // Scene 1: Shield
-      pos1: generateMechanismPositions(count),     // Scene 2: 4 Nodes
-      pos2: generateFragmentedPositions(count),    // Scene 3: Fragmented
-      pos3: generateReconvergedPositions(count),   // Scene 4/5: Reconverged
+      pos0: generateLogoPositions(count),
+      pos1: generateSpherePositions(count),
+      pos2: generateClusterPositions(count),
+      pos3: generateLinePositions(count),
+      pos4: generateGridPositions(count),
     };
   }, [count]);
 
@@ -89,7 +96,6 @@ export function ParticleSystem({ count = 10000, progressRef }: ParticleSystemPro
 
   useFrame(() => {
     if (materialRef.current) {
-      // Smooth out the uniform update
       materialRef.current.uniforms.uProgress.value = progressRef.current;
     }
     
@@ -103,22 +109,11 @@ export function ParticleSystem({ count = 10000, progressRef }: ParticleSystemPro
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[pos0, 3]}
-        />
-        <bufferAttribute
-          attach="attributes-target1"
-          args={[pos1, 3]}
-        />
-        <bufferAttribute
-          attach="attributes-target2"
-          args={[pos2, 3]}
-        />
-        <bufferAttribute
-          attach="attributes-target3"
-          args={[pos3, 3]}
-        />
+        <bufferAttribute attach="attributes-position" args={[pos0, 3]} />
+        <bufferAttribute attach="attributes-target1" args={[pos1, 3]} />
+        <bufferAttribute attach="attributes-target2" args={[pos2, 3]} />
+        <bufferAttribute attach="attributes-target3" args={[pos3, 3]} />
+        <bufferAttribute attach="attributes-target4" args={[pos4, 3]} />
       </bufferGeometry>
       <shaderMaterial
         ref={materialRef}
