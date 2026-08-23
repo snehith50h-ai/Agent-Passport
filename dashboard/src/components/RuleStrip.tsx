@@ -37,22 +37,24 @@ export function RuleStrip({ latestEvent }: { latestEvent: AuditLogEntry | null }
           
           let bgColor = 'bg-panel-2';
           let textColor = 'text-paper';
-          let borderColor = 'border-transparent';
+          let borderClasses = 'border-transparent';
           
           if (isActive) {
             if (activeRule.decision === 'declined') {
               bgColor = 'bg-coral/20';
               textColor = 'text-coral';
-              borderColor = 'border-coral';
+              borderClasses = 'border-coral border';
             } else if (activeRule.decision === 'countered') {
               bgColor = 'bg-amber/20';
               textColor = 'text-amber';
-              borderColor = 'border-amber';
+              borderClasses = 'border-amber border';
             } else if (activeRule.decision === 'approved') {
               bgColor = 'bg-mint/20';
               textColor = 'text-mint';
-              borderColor = 'border-mint';
+              borderClasses = 'border-mint border';
             }
+          } else {
+            borderClasses = 'border border-transparent';
           }
 
           return (
@@ -63,7 +65,7 @@ export function RuleStrip({ latestEvent }: { latestEvent: AuditLogEntry | null }
                 scale: isActive ? 1.02 : 1,
                 backgroundColor: isActive ? 'transparent' : undefined
               }}
-              className={`px-4 py-3 rounded-lg border ${bgColor} ${borderColor} transition-colors duration-300 flex items-center justify-between`}
+              className={`px-4 py-3 rounded-lg ${borderClasses} ${bgColor} transition-colors duration-300 flex items-center justify-between`}
             >
               <span className={`text-[14px] font-medium ${textColor} transition-colors duration-300 font-body`}>
                 {rule.label}

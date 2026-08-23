@@ -26,7 +26,7 @@ export function SpendGauge({ currentSpendPaise, capPaise }: { currentSpendPaise:
         <div className="absolute inset-0 bg-coral/10 animate-pulse pointer-events-none" />
       )}
 
-      <h2 className="text-mist text-[12px] uppercase tracking-[0.05em] mb-8 font-display self-start">Today's Spend</h2>
+      <h2 className="text-mist text-[10px] uppercase tracking-[0.05em] mb-8 font-display self-start opacity-80">Today's Spend</h2>
       
       <div className="relative w-48 h-48 flex items-center justify-center flex-1">
         {/* Background track */}
@@ -56,7 +56,7 @@ export function SpendGauge({ currentSpendPaise, capPaise }: { currentSpendPaise:
 
         <div className="flex flex-col items-center z-10">
           <span className="text-mist text-[12px] font-mono mb-1">INR</span>
-          <Data className={`text-[32px] font-bold tracking-tight ${isNearCap ? 'text-coral' : 'text-paper'}`}>
+          <Data className={`text-[48px] leading-none font-bold tracking-tight ${isNearCap ? 'text-coral' : 'text-paper'}`}>
             {animatedSpend.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
           </Data>
         </div>
