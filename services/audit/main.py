@@ -4,7 +4,6 @@ from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 import sys
-import hashlib
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 from contracts.schema import AuditLogEntry
@@ -34,8 +33,7 @@ def init_db():
             input_summary TEXT,
             verdict JSON,
             razorpay_order_id TEXT,
-            razorpay_status TEXT,
-            hash TEXT
+            razorpay_status TEXT
         )
     ''')
     conn.commit()
@@ -50,21 +48,12 @@ def write_audit(entry: AuditLogEntry):
     
     verdict_json = entry.verdict.model_dump_json() if entry.verdict else None
     
-    
-    # Retrieve previous hash
-    cursor.execute('SELECT hash FROM audit_log ORDER BY id DESC LIMIT 1')
-    prev_row = cursor.fetchone()
-    prev_hash = prev_row[0] if prev_row and prev_row[0] else "0000000000000000000000000000000000000000000000000000000000000000"
-    
-    raw_str = f"{prev_hash}{entry.timestamp}{entry.intent_id}{entry.action}{verdict_json or ''}"
-    current_hash = hashlib.sha256(raw_str.encode()).hexdigest()
-    
     cursor.execute('''
-        INSERT INTO audit_log (timestamp, intent_id, agent_id, action, input_summary, verdict, razorpay_order_id, razorpay_status, hash)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO audit_log (timestamp, intent_id, agent_id, action, input_summary, verdict, razorpay_order_id, razorpay_status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         entry.timestamp, entry.intent_id, entry.agent_id, entry.action,
-        entry.input_summary, verdict_json, entry.razorpay_order_id, entry.razorpay_status, current_hash
+        entry.input_summary, verdict_json, entry.razorpay_order_id, entry.razorpay_status
     ))
     conn.commit()
     conn.close()
@@ -95,7 +84,6 @@ def get_audit_log(agent_id: Optional[str] = Query(None)):
             input_summary=row[5],
             verdict=verdict,
             razorpay_order_id=row[7],
-            razorpay_status=row[8],
-            hash=row[9]
+            razorpay_status=row[8]
         ))
     return entries

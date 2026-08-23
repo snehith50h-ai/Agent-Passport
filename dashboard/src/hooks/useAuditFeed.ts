@@ -3,7 +3,7 @@ import type { AuditLogEntry } from '../types/audit';
 import { mockFixtures } from '../mock/audit-feed';
 
 // Force live backend by default for the real demo
-const USE_MOCK = import.meta.env.VITE_USE_MOCK_FEED === 'true';
+const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
 const POLL_INTERVAL = 3000;
 
 export function useAuditFeed() {
